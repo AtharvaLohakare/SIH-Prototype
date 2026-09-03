@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LogiSense AI | NER Intelligence</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i data-lucide="radio-tower"></i>
+            </div>
+            <div class="logo-text">
+                <b>LogiSense AI</b>
+                <span>NE Intelligence</span>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <button class="nav-item active" onclick="showPage('dashboard', this)">
+                <i data-lucide="activity"></i> Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showPage('map', this)">
+                <i data-lucide="map"></i> Live Map
+            </button>
+
+            <button class="nav-item" onclick="showPage('ai', this)">
+                <i data-lucide="brain"></i> AI Predictions
+            </button>
+
+            <button class="nav-item" onclick="showPage('route', this)">
+                <i data-lucide="route"></i> Route Optimizer
+            </button>
+
+            <button class="nav-item" onclick="showPage('accessibility', this)">
+                <i data-lucide="chart-bar"></i> Accessibility
+            </button>
+
+            <button class="nav-item" onclick="showPage('alerts', this)">
+                <i data-lucide="bell"></i> Alerts
+            </button>
+
+            <button class="nav-item" onclick="showPage('reports', this)">
+                <i data-lucide="file-text"></i> Reports
+            </button>
+
+            <button class="nav-item" onclick="showPage('settings', this)">
+                <i data-lucide="settings"></i> Settings
+            </button>
+        </div>
+
+        <div class="nav-right">
+            <input id="search" class="search" placeholder="Search intelligence..." onkeydown="searchData(event)">
+
+            <button class="icon-btn" onclick="showToast('You have 6 active alerts')">
+                <i data-lucide="bell"></i>
+            </button>
+
+            <div class="user">
+                <div class="avatar">RK</div>
+                <div>
+                    <b>Rajiv K.</b>
+                    <small>Ops Lead · NER</small>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="hero">
+
+            <span class="live-badge">● Live · 8 states · 46 districts</span>
+
+            <div class="hero-row">
+
+                <div>
+                    <h1>
+                        <span class="gradient">AI-Powered Logistics Intelligence</span>
+                        <br>
+                        for North East India
+                    </h1>
+
+                    <p>
+                        Predict accessibility challenges, optimize logistics routes,
+                        and improve connectivity using artificial intelligence —
+                        across all eight North East Indian states.
+                    </p>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="btn" onclick="showToast('Live tour started')">
+                        Live Tour
+                    </button>
+
+                    <button class="btn btn-primary" onclick="runAIScan()">
+                        Run AI Scan
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div class="card">
+                <div class="stat-label">OVERALL ACCESSIBILITY</div>
+                <div class="stat-value" id="accessibilityValue">65/100</div>
+                <div class="stat-desc">Regional composite index</div>
+                <div class="change">↗ +2.1% vs last month</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">HIGH-RISK REGIONS</div>
+                <div class="stat-value" id="riskValue">9</div>
+                <div class="stat-desc">Districts flagged</div>
+                <div class="change">↘ -1.2% vs last month</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">OPTIMIZED ROUTES</div>
+                <div class="stat-value">248</div>
+                <div class="stat-desc">Last 30 days</div>
+                <div class="change">↗ +8.4% vs last month</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">EST. COST SAVINGS</div>
+                <div class="stat-value">₹2.4 Cr</div>
+                <div class="stat-desc">Projected quarterly</div>
+                <div class="change">↗ +12.6% vs last month</div>
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="page active">
+
+            <div class="grid-2">
+
+                <div class="panel">
+                    <h2 class="section-title">North East India — Live GIS View</h2>
+
+                    <div class="map-box">
+
+                        <div class="state sikkim" onclick="stateInfo('Sikkim',71,'Moderate')">Sikkim</div>
+
+                        <div class="state arunachal" onclick="stateInfo('Arunachal Pradesh',48,'High')">
+                            Arunachal Pradesh
+                        </div>
+
+                        <div class="state assam" onclick="stateInfo('Assam',74,'Moderate')">
+                            Assam
+                        </div>
+
+                        <div class="state meghalaya" onclick="stateInfo('Meghalaya',68,'Moderate')">
+                            Meghalaya
+                        </div>
+
+                        <div class="state nagaland" onclick="stateInfo('Nagaland',57,'High')">
+                            Nagaland
+                        </div>
+
+                        <div class="state manipur" onclick="stateInfo('Manipur',55,'High')">
+                            Manipur
+                        </div>
+
+                        <div class="state mizoram" onclick="stateInfo('Mizoram',61,'Moderate')">
+                            Mizoram
+                        </div>
+
+                        <div class="state tripura" onclick="stateInfo('Tripura',83,'Low')">
+                            Tripura
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div>
+
+                    <div class="panel layers">
+
+                        <h2 class="section-title">Map Layers</h2>
+
+                        <button class="active-layer" onclick="toggleLayer(this)">
+                            ◉ Accessibility
+                        </button>
+
+                        <button onclick="toggleLayer(this)">
+                            ☁ Weather
+                        </button>
+
+                        <button class="active-layer" onclick="toggleLayer(this)">
+                            ◉ Live Traffic
+                        </button>
+
+                        <button onclick="toggleLayer(this)">
+                            ⚠ Disaster
+                        </button>
+
+                        <button class="active-layer" onclick="toggleLayer(this)">
+                            ⤢ Routes
+                        </button>
+
+                        <button onclick="toggleLayer(this)">
+                            ● Cities
+                        </button>
+
+                    </div>
+
+
+                    <div class="panel" style="margin-top:15px">
+
+                        <h2 class="section-title">State Snapshot</h2>
+
+                        <div id="stateDetails">
+                            Click any state on the map to view intelligence.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIVE MAP -->
+
+        <section id="map" class="page">
+
+            <div class="panel">
+
+                <h2 class="section-title">Live Logistics Intelligence Map</h2>
+
+                <p style="color:var(--muted);margin-bottom:20px">
+                    Real-time simulated logistics, accessibility and disaster intelligence.
+                </p>
+
+                <div class="map-box">
+
+                    <div class="state sikkim" onclick="stateInfo('Sikkim',71,'Moderate')">Sikkim</div>
+
+                    <div class="state arunachal" onclick="stateInfo('Arunachal Pradesh',48,'High')">
+                        Arunachal Pradesh
+                    </div>
+
+                    <div class="state assam" onclick="stateInfo('Assam',74,'Moderate')">
+                        Assam
+                    </div>
+
+                    <div class="state meghalaya" onclick="stateInfo('Meghalaya',68,'Moderate')">
+                        Meghalaya
+                    </div>
+
+                    <div class="state nagaland" onclick="stateInfo('Nagaland',57,'High')">
+                        Nagaland
+                    </div>
+
+                    <div class="state manipur" onclick="stateInfo('Manipur',55,'High')">
+                        Manipur
+                    </div>
+
+                    <div class="state mizoram" onclick="stateInfo('Mizoram',61,'Moderate')">
+                        Mizoram
+                    </div>
+
+                    <div class="state tripura" onclick="stateInfo('Tripura',83,'Low')">
+                        Tripura
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI -->
+
+        <section id="ai" class="page">
+
+            <div class="grid-2">
+
+                <!-- LEFT: AI RISK ENGINE -->
+                <div class="panel">
+
+                    <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:10px;
+            ">
+                        <div>
+                            <span class="live-badge">
+                                ● AI MODEL ONLINE
+                            </span>
+
+                            <h2 class="section-title" style="margin-top:12px">
+                                AI Risk Prediction Engine
+                            </h2>
+                        </div>
+
+                        <i data-lucide="brain" style="
+                    width:35px;
+                    height:35px;
+                    color:var(--purple);
+                   ">
+                        </i>
+                    </div>
+
+                    <p style="
+                color:var(--muted);
+                line-height:1.6;
+                margin-bottom:25px;
+                font-size:13px;
+            ">
+                        Simulate environmental and logistics conditions.
+                        LogiSense AI combines multiple risk factors to predict
+                        accessibility disruption and recommend the safest action.
+                    </p>
+
+
+                    <label>RAINFALL INTENSITY</label>
+
+                    <select id="rainfall">
+                        <option value="10">Low — Below 25 mm</option>
+                        <option value="30">Moderate — 25 to 75 mm</option>
+                        <option value="65">Heavy — 75 to 150 mm</option>
+                        <option value="95">Extreme — Above 150 mm</option>
+                    </select>
+
+
+                    <label>ROAD CONDITION</label>
+
+                    <select id="roadCondition">
+                        <option value="10">Good</option>
+                        <option value="35">Moderate</option>
+                        <option value="70">Poor</option>
+                        <option value="95">Severely Damaged</option>
+                    </select>
+
+
+                    <label>TRAFFIC CONGESTION</label>
+
+                    <select id="traffic">
+                        <option value="10">Low</option>
+                        <option value="35">Moderate</option>
+                        <option value="70">Heavy</option>
+                        <option value="95">Severe</option>
+                    </select>
+
+
+                    <label>LANDSLIDE PROBABILITY</label>
+
+                    <select id="landslide">
+                        <option value="5">Low — Below 20%</option>
+                        <option value="35">Moderate — 20 to 50%</option>
+                        <option value="70">High — 50 to 80%</option>
+                        <option value="98">Critical — Above 80%</option>
+                    </select>
+
+
+                    <label>REGION FOR ANALYSIS</label>
+
+                    <select id="riskRegion">
+                        <option>Upper Siang, Arunachal Pradesh</option>
+                        <option>Kamrup, Assam</option>
+                        <option>Kohima, Nagaland</option>
+                        <option>Imphal East, Manipur</option>
+                        <option>East Khasi Hills, Meghalaya</option>
+                        <option>Gangtok, Sikkim</option>
+                        <option>Aizawl, Mizoram</option>
+                        <option>West Tripura, Tripura</option>
+                    </select>
+
+
+                    <button class="btn btn-primary" id="riskButton" style="width:100%;margin-top:5px"
+                        onclick="predictRisk()">
+                        <i data-lucide="cpu" style="
+                    width:16px;
+                    vertical-align:middle;
+                    margin-right:5px;
+                   ">
+                        </i>
+
+                        Run AI Risk Prediction
+                    </button>
+
+                </div>
+
+
+                <!-- RIGHT: RESULT -->
+                <div class="panel route-result">
+
+                    <div id="predictionPlaceholder">
+
+                        <div style="
+                    width:80px;
+                    height:80px;
+                    margin:auto;
+                    border-radius:50%;
+                    display:grid;
+                    place-items:center;
+                    background:rgba(155,124,255,.12);
+                    border:1px solid rgba(155,124,255,.35);
+                ">
+                            <i data-lucide="brain" style="
+                        width:40px;
+                        height:40px;
+                        color:var(--purple);
+                       ">
+                            </i>
+                        </div>
+
+                        <h2 style="margin-top:20px">
+                            AI Intelligence Ready
+                        </h2>
+
+                        <p style="
+                    color:var(--muted);
+                    margin-top:10px;
+                    line-height:1.6;
+                ">
+                            Configure the environmental and logistics
+                            conditions to generate an AI accessibility prediction.
+                        </p>
+
+                    </div>
+
+
+                    <!-- LOADING -->
+                    <div id="aiLoading" style="display:none">
+
+                        <div style="
+                    font-size:50px;
+                    animation:pulse 1s infinite;
+                ">
+                            🤖
+                        </div>
+
+                        <h2 style="margin-top:15px">
+                            AI Model Analyzing
+                        </h2>
+
+                        <p id="aiLoadingText" style="
+                    color:var(--muted);
+                    margin-top:10px;
+                   ">
+                            Processing environmental intelligence...
+                        </p>
+
+                        <div class="progress" style="
+                        width:80%;
+                        margin:25px auto;
+                     ">
+                            <div id="aiProgress" style="width:0%;transition:width .4s">
+                            </div>
+                        </div>
+
+                        <small style="color:var(--muted)">
+                            Multi-factor risk analysis in progress
+                        </small>
+
+                    </div>
+
+
+                    <!-- RESULT -->
+                    <div id="predictionResult" style="
+                    display:none;
+                    width:100%;
+                    text-align:left;
+                 ">
+
+                        <div style="text-align:center">
+
+                            <span style="
+                        font-size:10px;
+                        color:var(--muted);
+                        letter-spacing:1px;
+                    ">
+                                PREDICTED LOGISTICS RISK
+                            </span>
+
+                            <h1 id="riskScore" style="
+                            font-size:64px;
+                            margin:8px 0;
+                        ">
+                                0
+                            </h1>
+
+                            <div id="riskLevel" style="
+                            display:inline-block;
+                            padding:8px 18px;
+                            border-radius:25px;
+                            font-weight:bold;
+                            font-size:13px;
+                         ">
+                                LOW RISK
+                            </div>
+
+                            <p id="riskRegionResult" style="
+                        color:var(--muted);
+                        margin-top:12px;
+                        font-size:12px;
+                       ">
+                            </p>
+
+                        </div>
+
+
+                        <!-- RISK METER -->
+
+                        <div style="margin-top:25px">
+
+                            <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        font-size:11px;
+                        color:var(--muted);
+                        margin-bottom:7px;
+                    ">
+                                <span>Low</span>
+                                <span>Critical</span>
+                            </div>
+
+                            <div style="
+                        height:12px;
+                        background:linear-gradient(
+                            90deg,
+                            var(--green),
+                            var(--orange),
+                            var(--red)
+                        );
+                        border-radius:20px;
+                        position:relative;
+                    ">
+
+                                <div id="riskPointer" style="
+                                position:absolute;
+                                width:18px;
+                                height:18px;
+                                background:white;
+                                border:3px solid #111a2b;
+                                border-radius:50%;
+                                top:-3px;
+                                left:0%;
+                                transition:left 1s ease;
+                             ">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr style="
+                    border:0;
+                    border-top:1px solid var(--border);
+                    margin:25px 0;
+                ">
+
+
+                        <!-- AI RECOMMENDATION -->
+
+                        <div style="
+                    display:flex;
+                    gap:12px;
+                    align-items:flex-start;
+                ">
+
+                            <div style="
+                        background:rgba(69,216,255,.1);
+                        padding:10px;
+                        border-radius:10px;
+                    ">
+                                🤖
+                            </div>
+
+                            <div>
+
+                                <h3 style="margin-bottom:8px">
+                                    AI Recommendation
+                                </h3>
+
+                                <p id="riskRecommendation" style="
+                            color:var(--muted);
+                            font-size:12px;
+                            line-height:1.7;
+                           ">
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FACTOR BREAKDOWN -->
+
+                        <h3 style="
+                    margin-top:25px;
+                    margin-bottom:15px;
+                    font-size:13px;
+                ">
+                            Risk Factor Analysis
+                        </h3>
+
+
+                        <div id="factorAnalysis">
+
+                            <!-- GENERATED BY JAVASCRIPT -->
+
+                        </div>
+
+
+                        <!-- RESULT CARDS -->
+
+                        <div class="result-grid">
+
+                            <div>
+                                <b id="delayHours">0 hrs</b>
+                                <br>
+                                <small>Possible Delay</small>
+                            </div>
+
+                            <div>
+                                <b id="accessibilityScore">0%</b>
+                                <br>
+                                <small>Accessibility</small>
+                            </div>
+
+                            <div>
+                                <b id="confidenceScore">0%</b>
+                                <br>
+                                <small>AI Confidence</small>
+                            </div>
+
+                            <div>
+                                <b id="actionStatus">Normal</b>
+                                <br>
+                                <small>Action</small>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div style="
+                    display:flex;
+                    gap:10px;
+                    margin-top:20px;
+                ">
+
+                            <button class="btn" style="flex:1" onclick="usePredictionForRoute()">
+                                Optimize Route
+                            </button>
+
+                            <button class="btn btn-primary" style="flex:1" onclick="generateRiskAlert()">
+                                Create Alert
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BELOW AI ENGINE -->
+
+            <div style="
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:15px;
+        margin-top:15px;
+    " class="ai-bottom-cards">
+
+
+                <div class="panel prediction">
+
+                    <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+            ">
+
+                        <h3>
+                            Upper Siang
+                        </h3>
+
+                        <span class="tag critical">
+                            Critical
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Heavy rainfall and elevated landslide
+                        probability detected.
+                    </p>
+
+                    <div class="progress">
+                        <div style="width:91%"></div>
+                    </div>
+
+                    <small style="color:var(--muted)">
+                        Predicted disruption: 91%
+                    </small>
+
+                </div>
+
+
+                <div class="panel prediction" style="border-left-color:var(--orange)">
+
+                    <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+            ">
+
+                        <h3>
+                            NH-2 Corridor
+                        </h3>
+
+                        <span class="tag high">
+                            High
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Traffic congestion and road degradation
+                        affecting logistics movement.
+                    </p>
+
+                    <div class="progress">
+                        <div style="width:74%"></div>
+                    </div>
+
+                    <small style="color:var(--muted)">
+                        Predicted disruption: 74%
+                    </small>
+
+                </div>
+
+
+                <div class="panel prediction" style="border-left-color:var(--green)">
+
+                    <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+            ">
+
+                        <h3>
+                            Tripura Corridor
+                        </h3>
+
+                        <span class="tag" style="
+                        background:rgba(72,214,168,.15);
+                        color:var(--green);
+                      ">
+                            Stable
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Stable weather and road conditions.
+                        Accessibility remains strong.
+                    </p>
+
+                    <div class="progress">
+                        <div style="
+                    width:28%;
+                    background:var(--green);
+                "></div>
+                    </div>
+
+                    <small style="color:var(--muted)">
+                        Disruption probability: 28%
+                    </small>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ROUTE -->
+
+        <section id="route" class="page">
+
+            <div class="route-layout">
+
+
+                <div class="panel route-form-panel">
+
+                    <h2 class="section-title">AI Route Optimizer</h2>
+
+                    <div class="route-tabs">
+                        <button class="route-tab active" onclick="setRouteMode('city', this)">
+                            🏙 City → City
+                        </button>
+
+                        <button class="route-tab" onclick="setRouteMode('state', this)">
+                            🗺 State → State
+                        </button>
+
+                        <button class="route-tab" onclick="setRouteMode('country', this)">
+                            🌍 Country → Country
+                        </button>
+                    </div>
+
+
+                    <label id="sourceLabel">SOURCE CITY</label>
+
+                    <div class="location-input-box">
+                        <input type="text" id="source" placeholder="Type or select a city" autocomplete="off"
+                            oninput="filterLocations('source')" onfocus="showSuggestions('source')">
+
+                        <div class="suggestions" id="sourceSuggestions"></div>
+                    </div>
+
+
+                    <div class="swap-row">
+                        <span></span>
+
+                        <button class="swap-btn" onclick="swapLocations()">
+                            ⇅
+                        </button>
+
+                        <span></span>
+                    </div>
+
+
+                    <label id="destinationLabel">DESTINATION CITY</label>
+
+                    <div class="location-input-box">
+                        <input type="text" id="destination" placeholder="Type or select a city" autocomplete="off"
+                            oninput="filterLocations('destination')" onfocus="showSuggestions('destination')">
+
+                        <div class="suggestions" id="destinationSuggestions"></div>
+                    </div>
+
+
+                    <label>VEHICLE TYPE</label>
+
+                    <select id="vehicle">
+                        <option>Heavy Truck</option>
+                        <option>Light Truck</option>
+                        <option>Container Truck</option>
+                        <option>Refrigerated Truck</option>
+                        <option>Emergency Vehicle</option>
+                        <option>Delivery Van</option>
+                    </select>
+
+
+                    <label>OPTIMIZATION PRIORITY</label>
+
+                    <select id="priority">
+                        <option>Fastest</option>
+                        <option>Lowest Cost</option>
+                        <option>Safest</option>
+                        <option>Most Reliable</option>
+                    </select>
+
+
+                    <button class="btn btn-primary" id="optimizeButton" style="width:100%;margin-top:15px"
+                        onclick="optimizeRoute()">
+
+                        🤖 Optimize Route with AI
+
+                    </button>
+
+                </div>
+
+
+
+
+                <div class="panel route-result">
+
+                    <div id="routePlaceholder">
+
+                        <i data-lucide="route" style="width:50px;height:50px;color:var(--muted)"></i>
+
+                        <h2>Recommended Route</h2>
+
+                        <p style="color:var(--muted)">
+                            Configure your journey and click Optimize Route.
+                        </p>
+
+                    </div>
+
+
+                    <div class="route-data" id="routeData">
+
+                        <h2>🤖 AI Recommended Route</h2>
+
+                        <div class="route-nodes">
+                            <div class="node">Guwahati</div>
+                            →
+                            <div class="node">Nagaon</div>
+                            →
+                            <div class="node">Kohima Corridor</div>
+                            →
+                            <div class="node">Imphal</div>
+                        </div>
+
+                        <div class="result-grid">
+
+                            <div>
+                                <b>493 km</b>
+                                <br>
+                                <small>Distance</small>
+                            </div>
+
+                            <div>
+                                <b>10h 35m</b>
+                                <br>
+                                <small>ETA</small>
+                            </div>
+
+                            <div>
+                                <b>₹18,420</b>
+                                <br>
+                                <small>Fuel Cost</small>
+                            </div>
+
+                            <div>
+                                <b style="color:var(--green)">Low–Medium</b>
+                                <br>
+                                <small>Risk</small>
+                            </div>
+
+                        </div>
+
+                        <p style="margin-top:25px;color:var(--green)">
+                            AI Confidence: 91%
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCESSIBILITY -->
+
+        <section id="accessibility" class="page">
+
+            <div class="chart-grid">
+
+                <div class="panel chart-panel">
+                    <h2 class="section-title">Accessibility Score by State</h2>
+                    <canvas id="stateChart"></canvas>
+                </div>
+
+                <div class="panel chart-panel">
+                    <h2 class="section-title">Monthly Accessibility Trend</h2>
+                    <canvas id="trendChart"></canvas>
+                </div>
+
+                <div class="panel chart-panel">
+                    <h2 class="section-title">Logistics Efficiency</h2>
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+
+                <div class="panel chart-panel">
+                    <h2 class="section-title">Risk Distribution</h2>
+                    <canvas id="riskChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ALERTS -->
+
+        <section id="alerts" class="page">
+
+            <div class="grid-2">
+
+                <div class="panel">
+
+                    <h2 class="section-title">Alert Center</h2>
+
+                    <div class="filter-bar">
+
+                        <button class="filter" onclick="filterAlerts('all')">All</button>
+                        <button class="filter" onclick="filterAlerts('critical')">Critical</button>
+                        <button class="filter" onclick="filterAlerts('high')">High</button>
+                        <button class="filter" onclick="filterAlerts('medium')">Medium</button>
+
+                    </div>
+
+
+                    <div class="alert card critical-alert" data-type="critical">
+
+                        <div>
+                            <h3>⛰ Landslide on NH-306 <span class="tag critical">Critical</span></h3>
+                            <p>Major road blockage confirmed. AI recommends alternative route.</p>
+                            <p>📍 Mizoram · 12 min ago</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert card high-alert" data-type="high">
+
+                        <div>
+                            <h3>🌧 Heavy rainfall warning <span class="tag high">High</span></h3>
+                            <p>100mm rainfall expected in 24 hours.</p>
+                            <p>📍 Arunachal Pradesh · 38 min ago</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert card high-alert" data-type="high">
+
+                        <div>
+                            <h3>🌊 Flash flood risk <span class="tag high">High</span></h3>
+                            <p>River gauge crossed warning threshold.</p>
+                            <p>📍 Dhemaji · 1 hr ago</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert card medium-alert" data-type="medium">
+
+                        <div>
+                            <h3>🚛 Traffic congestion</h3>
+                            <p>Congestion index 78/100. Commercial delays expected.</p>
+                            <p>📍 NH-27 Nagaon · 2 hr ago</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="panel summary">
+                        CRITICAL
+                        <h1 style="color:var(--red)">1</h1>
+                    </div>
+
+                    <div class="panel summary">
+                        HIGH
+                        <h1 style="color:var(--orange)">2</h1>
+                    </div>
+
+                    <div class="panel summary">
+                        MEDIUM
+                        <h1 style="color:var(--orange)">2</h1>
+                    </div>
+
+                    <div class="panel summary">
+                        LOW
+                        <h1 style="color:var(--cyan)">1</h1>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REPORTS -->
+
+        <section id="reports" class="page">
+
+            <div class="panel" style="text-align:center;padding:50px">
+
+                <i data-lucide="file-text" style="width:45px;height:45px;color:var(--muted)"></i>
+
+                <h2 style="margin-top:15px">Reports</h2>
+
+                <p style="color:var(--muted);margin-top:10px">
+                    Auto-generated executive briefings and accessibility intelligence reports.
+                </p>
+
+                <div class="report-grid">
+
+                    <div class="card report">
+
+                        <i data-lucide="file-text"></i>
+
+                        <h3>Weekly NER Accessibility</h3>
+
+                        <p>Updated · September 2026</p>
+
+                        <br>
+
+                        <button class="btn" onclick="showToast('Opening Weekly Accessibility Report...')">
+                            View Report
+                        </button>
+
+                    </div>
+
+
+                    <div class="card report">
+
+                        <i data-lucide="file-text"></i>
+
+                        <h3>Q2 Logistics Cost Savings</h3>
+
+                        <p>Updated · September 2026</p>
+
+                        <br>
+
+                        <button class="btn" onclick="showToast('Opening Cost Savings Report...')">
+                            View Report
+                        </button>
+
+                    </div>
+
+
+                    <div class="card report">
+
+                        <i data-lucide="file-text"></i>
+
+                        <h3>Disaster Response Digest</h3>
+
+                        <p>Updated · September 2026</p>
+
+                        <br>
+
+                        <button class="btn" onclick="showToast('Opening Disaster Response Digest...')">
+                            View Report
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+
+        <section id="settings" class="page">
+
+            <div class="panel">
+
+                <h2 class="section-title">Platform Settings</h2>
+
+                <p style="color:var(--muted);margin-bottom:20px">
+                    Configure data sources, model thresholds and notification channels.
+                </p>
+
+                <div class="settings-grid">
+
+                    <div class="card setting">
+                        Weather API Key
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                    <div class="card setting">
+                        Traffic Feed
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                    <div class="card setting">
+                        ERP Webhook
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                    <div class="card setting">
+                        SMS Gateway
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                    <div class="card setting">
+                        Email Digest
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                    <div class="card setting">
+                        Model Auto-Tune
+                        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
